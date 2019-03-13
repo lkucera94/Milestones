@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Milestones.Data;
+using Milestones.Models.PageModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace Milestones.Services
 {
-    class KidService
+    public class KidService
     {
+
     }
 }
