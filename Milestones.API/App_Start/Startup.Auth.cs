@@ -10,6 +10,7 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using Milestones.API.Providers;
 using Milestones.API.Models;
+using Milestones.Data;
 
 namespace Milestones.API
 {

@@ -16,6 +16,7 @@ using Microsoft.Owin.Security.OAuth;
 using Milestones.API.Models;
 using Milestones.API.Providers;
 using Milestones.API.Results;
+using Milestones.Data;
 
 namespace Milestones.API.Controllers
 {
