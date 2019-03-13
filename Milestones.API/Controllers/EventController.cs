@@ -21,7 +21,7 @@ namespace Milestones.API.Controllers
             return Ok(events);
         }
 
-        [Route("ByEvent/{id:int")]
+        [Route("ByEvent/{id:int}")]
         public IHttpActionResult GetByEventID(int id)
         {
             var service = GetEventService();
