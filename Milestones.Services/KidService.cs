@@ -20,25 +20,29 @@ namespace Milestones.Services
 
         public bool CreateKid(KidCreate model)
         {
-            var kid = new Kid()
-            {
-                UserID = _userID,
-                FName = model.FName,
-                LName = model.LName,
-                DOB = model.DOB,
-                Age = model.Age,
-                About = model.About,
-                Gender = model.Gender,
-            };
-
+            var kid = new Kid(_userID, model.FName, model.LName, model.DOB, model.About, model.Gender);
+                
             var ctx = new ApplicationDbContext();
-
             ctx.Kids.Add(kid);
-            ctx.SaveChanges();
-            var kidID = ctx.Kids.OrderByDescending(p => p.KidID).FirstOrDefault().KidID;
-
-            CalculateAge(kidID);
             return ctx.SaveChanges() == 1;
+            
+                
+                
+                
+                
+                //{
+            //    UserID = _userID,
+            //    FName = model.FName,
+            //    LName = model.LName,
+            //    DOB = model.DOB,
+            //    About = model.About,
+            //    Gender = model.Gender,
+            //};
+            
+          //  ctx.SaveChanges();
+            //var kidID = ctx.Kids.OrderByDescending(p => p.KidID).FirstOrDefault().KidID;
+            //CalculateAge(kidID);
+
 
         }
 
@@ -84,7 +88,7 @@ namespace Milestones.Services
 
                 };
 
-                CalculateAge(kidID);
+                //CalculateAge(kidID);
 
                 return model;
             }
@@ -117,43 +121,43 @@ namespace Milestones.Services
             }
         }
 
-        private bool CalculateAge(int kidID)
-        {
-            var ctx = new ApplicationDbContext();
-            var kid = ctx.Kids.Single(b => b.KidID == kidID);
+        //private bool CalculateAge(int kidID)
+        //{
+        //    var ctx = new ApplicationDbContext();
+        //    var kid = ctx.Kids.Single(b => b.KidID == kidID);
 
-            DateTime dob = kid.DOB;
-            var age = CalcKidsAge(dob);
+        //    DateTime dob = kid.DOB;
+        //    var age = CalcKidsAge(dob);
 
-            string CalcKidsAge(DateTime Dob)
-            {
-                DateTime Now = DateTime.Now;
-                int years = new DateTime(DateTime.Now.Subtract(Dob).Ticks).Year - 1;
-                DateTime PastYearDate = Dob.AddYears(years);
-                int months = 0;
-                for (int i = 1; i <= 12; i++)
-                {
-                    if (PastYearDate.AddMonths(i) == Now)
-                    {
-                        months = i;
-                        break;
-                    }
-                    else if (PastYearDate.AddMonths(i) >= Now)
-                    {
-                        months = i - 1;
-                        break;
-                    }
-                }
-                int days = Now.Subtract(PastYearDate.AddMonths(months)).Days;
+        //    string CalcKidsAge(DateTime Dob)
+        //    {
+        //        DateTime Now = DateTime.Now;
+        //        int years = new DateTime(DateTime.Now.Subtract(Dob).Ticks).Year - 1;
+        //        DateTime PastYearDate = Dob.AddYears(years);
+        //        int months = 0;
+        //        for (int i = 1; i <= 12; i++)
+        //        {
+        //            if (PastYearDate.AddMonths(i) == Now)
+        //            {
+        //                months = i;
+        //                break;
+        //            }
+        //            else if (PastYearDate.AddMonths(i) >= Now)
+        //            {
+        //                months = i - 1;
+        //                break;
+        //            }
+        //        }
+        //        int days = Now.Subtract(PastYearDate.AddMonths(months)).Days;
 
-                age = $"Age: {years} Year(s) {months} Months(s) {days} Day(s)";
+        //        age = $"Age: {years} Year(s) {months} Months(s) {days} Day(s)";
 
-                kid.Age = age;
+        //        kid.Age = age;
 
-                return age;
-            }
-            return ctx.SaveChanges() == 1;
-        }
+        //        return age;
+        //    }
+        //    return ctx.SaveChanges() == 1;
+        //}
 
     }
 }
