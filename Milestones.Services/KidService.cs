@@ -33,9 +33,9 @@ namespace Milestones.Services
 
             var ctx = new ApplicationDbContext();
 
-            ctx.Kid.Add(kid);
+            ctx.Kids.Add(kid);
             ctx.SaveChanges();
-            var kidID = ctx.Kid.OrderByDescending(p => p.KidID).FirstOrDefault().KidID;
+            var kidID = ctx.Kids.OrderByDescending(p => p.KidID).FirstOrDefault().KidID;
 
             CalculateAge(kidID);
             return ctx.SaveChanges() == 1;
@@ -48,7 +48,7 @@ namespace Milestones.Services
             {
                 var query =
                     ctx.
-                    Kid.
+                    Kids.
                     Where(k => k.UserID == userID).
                     Select(k => new KidGetKid
                     {
@@ -70,7 +70,7 @@ namespace Milestones.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity = ctx.Kid.Single(k => k.KidID == kidID);
+                var entity = ctx.Kids.Single(k => k.KidID == kidID);
 
                 var model = new KidDetail
                 {
@@ -94,7 +94,7 @@ namespace Milestones.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity = ctx.Kid.Single(k => k.KidID == model.KidID);
+                var entity = ctx.Kids.Single(k => k.KidID == model.KidID);
 
                 entity.FName = model.FName;
                 entity.LName = model.LName;
@@ -109,9 +109,9 @@ namespace Milestones.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity = ctx.Kid.Single(k => k.KidID == kidID);
+                var entity = ctx.Kids.Single(k => k.KidID == kidID);
 
-                ctx.Kid.Remove(entity);
+                ctx.Kids.Remove(entity);
 
                 return (ctx.SaveChanges() == 1);
             }
@@ -120,7 +120,7 @@ namespace Milestones.Services
         private bool CalculateAge(int kidID)
         {
             var ctx = new ApplicationDbContext();
-            var kid = ctx.Kid.Single(b => b.KidID == kidID);
+            var kid = ctx.Kids.Single(b => b.KidID == kidID);
 
             DateTime dob = kid.DOB;
             var age = CalcKidsAge(dob);

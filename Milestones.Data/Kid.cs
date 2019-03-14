@@ -27,7 +27,7 @@ namespace Milestones.Data
         public DateTime DOB { get; set; }
 
         [Required]
-        public int Age { get; set; }
+        public string Age { get; set; }
 
         [Display(Name = "Additional Info"), DisplayFormat(DataFormatString = "{0:d}")]
         public string About { get; set; }

@@ -24,7 +24,7 @@ namespace Milestones.Models.KidModels
         public DateTime DOB { get; set; }
 
         [Required]
-        public int Age { get; set; }
+        public string Age { get; set; }
 
         [Display(Name = "Additional Info")]
         public string About { get; set; }
