@@ -23,9 +23,9 @@ namespace Milestones.Models.EventModels
         [Display(Name = "Comments")]
         public string EventComment { get; set; }
 
-        [Required]
-        [Display(Name = "Child's Age")]
-        public string KidAgeAtEvent { get; set; }
+        //[Required]
+        //[Display(Name = "Child's Age")]
+        //public string KidAgeAtEvent { get; set; }
 
         [Display(Name = "Event Location")]
         public string EventLocation { get; set; }

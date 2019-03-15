@@ -19,22 +19,11 @@ namespace Milestones.Services
 
         public bool CreateEvent(EventCreate model)
         {
-            var newEvent = new Event
-            {
-                UserID = _userId,
-                EventName = model.EventName,
-                EventLocation = model.EventLocation,
-                DateOfEvent = model.DateOfEvent,
-                EventComment = model.EventComment
-            };
+            var newEvent = new Event(_userId, model.KidID,model.EventName, model.EventLocation, model.DateOfEvent, model.EventComment);
 
             var ctx = new ApplicationDbContext();
-
             ctx.Events.Add(newEvent);
-            var eventID = ctx.Events.OrderByDescending(e => e.EventID).FirstOrDefault().EventID;
-            CalculateAge(model.KidID, eventID);
             return ctx.SaveChanges() == 1;
-
         }
 
         public IEnumerable<EventListItem> GetEventsByUserID(Guid id)
@@ -62,6 +51,7 @@ namespace Milestones.Services
             {
                 var query = ctx.Events.Where(e => e.KidID == id).Select(e => new EventListItem
                 {
+                    KidID = e.KidID,
                     EventID = e.EventID,
                     EventName = e.EventName,
                     FirstName = e.Kids.FName,
@@ -99,6 +89,7 @@ namespace Milestones.Services
             {
                 var entity = ctx.Events.Single(e => e.EventID == model.EventID);
 
+                entity.EventID = model.EventID;
                 entity.EventName = model.EventName;
                 entity.EventLocation = model.EventLocation;
                 entity.KidAgeAtEvent = model.KidAgeAtEvent;
@@ -122,43 +113,43 @@ namespace Milestones.Services
             }
         }
 
-        private bool CalculateAge(int kidID, int eventID)
-        {
-            var ctx = new ApplicationDbContext();
-            var kid = ctx.Kids.Single(b => b.KidID == kidID);
-            var milestone = ctx.Events.Single(m => m.EventID == eventID);
+        //private bool CalculateAge(int kidID, int eventID)
+        //{
+        //    var ctx = new ApplicationDbContext();
+        //    var kid = ctx.Kids.Single(b => b.KidID == kidID);
+        //    var milestone = ctx.Events.Single(m => m.EventID == eventID);
 
-            DateTime dob = kid.DOB;
-            var age = CalcKidsAgeAtEvent(dob);
+        //    DateTime dob = kid.DOB;
+        //    var age = CalcKidsAgeAtEvent(dob);
 
-            string CalcKidsAgeAtEvent(DateTime Dob)
-            {
-                DateTime Event = milestone.DateOfEvent;
-                int years = new DateTime(DateTime.Now.Subtract(Dob).Ticks).Year - 1;
-                DateTime PastYearDate = Dob.AddYears(years);
-                int months = 0;
-                for (int i = 1; i <= 12; i++)
-                {
-                    if (PastYearDate.AddMonths(i) == Event)
-                    {
-                        months = i;
-                        break;
-                    }
-                    else if (PastYearDate.AddMonths(i) >= Event)
-                    {
-                        months = i - 1;
-                        break;
-                    }
-                }
-                int days = Event.Subtract(PastYearDate.AddMonths(months)).Days;
+        //    string CalcKidsAgeAtEvent(DateTime Dob)
+        //    {
+        //        DateTime Event = milestone.DateOfEvent;
+        //        int years = new DateTime(DateTime.Now.Subtract(Dob).Ticks).Year - 1;
+        //        DateTime PastYearDate = Dob.AddYears(years);
+        //        int months = 0;
+        //        for (int i = 1; i <= 12; i++)
+        //        {
+        //            if (PastYearDate.AddMonths(i) == Event)
+        //            {
+        //                months = i;
+        //                break;
+        //            }
+        //            else if (PastYearDate.AddMonths(i) >= Event)
+        //            {
+        //                months = i - 1;
+        //                break;
+        //            }
+        //        }
+        //        int days = Event.Subtract(PastYearDate.AddMonths(months)).Days;
 
-                age = $"Age: {years} Year(s) {months} Months(s) {days} Day(s)";
+        //        age = $"Age: {years} Year(s) {months} Months(s) {days} Day(s)";
 
-                milestone.KidAgeAtEvent = age;
+        //        milestone.KidAgeAtEvent = age;
 
-                return age;
-            }
-            return ctx.SaveChanges() == 1;
-        }
+        //        return age;
+        //    }
+        //    return ctx.SaveChanges() == 1;
+        //}
     }
 }

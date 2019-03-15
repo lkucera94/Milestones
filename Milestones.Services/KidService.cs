@@ -56,6 +56,7 @@ namespace Milestones.Services
                     Where(k => k.UserID == userID).
                     Select(k => new KidGetKid
                     {
+                        KidID = k.KidID,
                         UserID = k.UserID,
                         FName = k.FName,
                         LName = k.LName,
@@ -78,6 +79,7 @@ namespace Milestones.Services
 
                 var model = new KidDetail
                 {
+                    KidID = entity.KidID,
                     UserID = entity.UserID,
                     FName = entity.FName,
                     LName = entity.LName,
@@ -100,6 +102,7 @@ namespace Milestones.Services
             {
                 var entity = ctx.Kids.Single(k => k.KidID == model.KidID);
 
+                entity.KidID = model.KidID;
                 entity.FName = model.FName;
                 entity.LName = model.LName;
                 entity.About = model.About;
