@@ -11,6 +11,8 @@ namespace Milestones.Models.EventModels
     public class EventEdit
     {
         public int EventID { get; set; }
+         
+        public Guid UserID { get; set; }
 
         [Display(Name = "Child")]
         public int KidID { get; set; }
@@ -28,8 +30,8 @@ namespace Milestones.Models.EventModels
         public string EventComment { get; set; }
 
 
-        [Display(Name = "Child's Age")]
-        public string KidAgeAtEvent { get; set; }
+        //[Display(Name = "Child's Age")]
+        //public string KidAgeAtEvent { get; set; }
 
         public virtual Kid Kids { get; set; } 
     }

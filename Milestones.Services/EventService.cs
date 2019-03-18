@@ -87,12 +87,12 @@ namespace Milestones.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity = ctx.Events.Single(e => e.EventID == model.EventID);
+                var entity = ctx.Events.Single(e => e.EventID == model.EventID && e.UserID == _userId);
 
                 entity.EventID = model.EventID;
+                entity.UserID = _userId;
                 entity.EventName = model.EventName;
                 entity.EventLocation = model.EventLocation;
-                entity.KidAgeAtEvent = model.KidAgeAtEvent;
                 entity.KidID = model.KidID;
                 entity.EventComment = model.EventComment;
                 entity.DateOfEvent = model.DateOfEvent;
@@ -106,50 +106,13 @@ namespace Milestones.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity = ctx.Events.Single(e => e.EventID == id);
+                var entity = ctx.Events.Single(e => e.EventID == id && e.UserID == _userId);
 
                 ctx.Events.Remove(entity);
                 return ctx.SaveChanges() == 1;
             }
         }
 
-        //private bool CalculateAge(int kidID, int eventID)
-        //{
-        //    var ctx = new ApplicationDbContext();
-        //    var kid = ctx.Kids.Single(b => b.KidID == kidID);
-        //    var milestone = ctx.Events.Single(m => m.EventID == eventID);
-
-        //    DateTime dob = kid.DOB;
-        //    var age = CalcKidsAgeAtEvent(dob);
-
-        //    string CalcKidsAgeAtEvent(DateTime Dob)
-        //    {
-        //        DateTime Event = milestone.DateOfEvent;
-        //        int years = new DateTime(DateTime.Now.Subtract(Dob).Ticks).Year - 1;
-        //        DateTime PastYearDate = Dob.AddYears(years);
-        //        int months = 0;
-        //        for (int i = 1; i <= 12; i++)
-        //        {
-        //            if (PastYearDate.AddMonths(i) == Event)
-        //            {
-        //                months = i;
-        //                break;
-        //            }
-        //            else if (PastYearDate.AddMonths(i) >= Event)
-        //            {
-        //                months = i - 1;
-        //                break;
-        //            }
-        //        }
-        //        int days = Event.Subtract(PastYearDate.AddMonths(months)).Days;
-
-        //        age = $"Age: {years} Year(s) {months} Months(s) {days} Day(s)";
-
-        //        milestone.KidAgeAtEvent = age;
-
-        //        return age;
-        //    }
-        //    return ctx.SaveChanges() == 1;
-        //}
+        
     }
 }
