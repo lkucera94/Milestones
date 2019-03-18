@@ -36,7 +36,7 @@ namespace Milestones.Data
         }
 
         public DbSet<Kid> Kids { get; set; }
-        public DbSet<Event> Events { get; set; }
+        public DbSet<Event> Events { get; set; } 
         public DbSet<Page> Pages { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
