@@ -26,12 +26,12 @@ namespace Milestones.Services
             return ctx.SaveChanges() == 1;
         }
 
-        public IEnumerable<EventListItem> GetEventsByUserID(Guid id)
+        public IEnumerable<EventListItem> GetEventsByUserID()
         {
             using (var ctx = new ApplicationDbContext())
             {
 
-                var query = ctx.Events.Where(e => e.UserID == id).Select(e => new EventListItem
+                var query = ctx.Events.Where(e => e.UserID == _userId).Select(e => new EventListItem
                 {
                     KidID = e.KidID,
                     EventID = e.EventID,

@@ -14,10 +14,10 @@ namespace Milestones.API.Controllers
     public class EventController : ApiController
     {
         [Route("All")]
-        public IHttpActionResult GetAll(Guid id)
+        public IHttpActionResult GetAll()
         {
             var service = GetEventService();
-            var events = service.GetEventsByUserID(id);
+            var events = service.GetEventsByUserID();
             return Ok(events);
         }
 

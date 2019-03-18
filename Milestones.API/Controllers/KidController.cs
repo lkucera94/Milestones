@@ -15,10 +15,10 @@ namespace Milestones.API.Controllers
         public class KidController : ApiController
         {
             [Route("AllKids")]
-            public IHttpActionResult GetAll(Guid id)
+            public IHttpActionResult GetAll()
             {
                 var service = GetEventService();
-                var kids = service.GetKidsByUserID(id);
+                var kids = service.GetKidsByUserID();
                 return Ok(kids);
             }
 

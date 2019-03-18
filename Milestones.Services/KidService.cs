@@ -28,18 +28,18 @@ namespace Milestones.Services
           
         }
 
-        public IEnumerable<KidGetKid> GetKidsByUserID(Guid userID)
+        public IEnumerable<KidGetKid> GetKidsByUserID()
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var query =
                     ctx.
                     Kids.
-                    Where(k => k.UserID == userID).
+                    Where(k => k.UserID == _userID).
                     Select(k => new KidGetKid
                     {
                         KidID = k.KidID,
-                        UserID = k.UserID,
+                        UserID = _userID,
                         FName = k.FName,
                         LName = k.LName,
                         DOB = k.DOB,
@@ -62,7 +62,7 @@ namespace Milestones.Services
                 var model = new KidDetail
                 {
                     KidID = entity.KidID,
-                    UserID = entity.UserID,
+                    UserID = _userID,
                     FName = entity.FName,
                     LName = entity.LName,
                     DOB = entity.DOB,
