@@ -58,7 +58,7 @@ namespace Milestones.API.Controllers
                 return Ok();
             }
 
-            [Route("Delete")]
+            [Route("Delete/{id:int}")]
             public IHttpActionResult DeleteKid(int id)
             {
                 var service = GetEventService();

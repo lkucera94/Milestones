@@ -71,7 +71,7 @@ namespace Milestones.Data
             }
             int days = Now.Subtract(PastYearDate.AddMonths(months)).Days;
 
-            var age = $"Age: {years} Year(s) {months} Months(s) {days} Day(s)";
+            var age = $" {years} Year(s) {months} Months(s) {days} Day(s)";
 
             return age;
         }
