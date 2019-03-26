@@ -12,7 +12,7 @@ namespace Milestones.Models.KidModels
         [Key]
         public int KidID { get; set; }
 
-        [Required]
+       
         public Guid UserID { get; set; }
 
         [Required]

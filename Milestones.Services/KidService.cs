@@ -49,6 +49,11 @@ namespace Milestones.Services
 
                     }).ToArray();
 
+                foreach(var kid in query)
+                {
+                    kid.Age = CalcKidsAge(kid.DOB);
+                }
+
                 return query;
             }
         }
@@ -66,7 +71,7 @@ namespace Milestones.Services
                     FName = entity.FName,
                     LName = entity.LName,
                     DOB = entity.DOB,
-                    Age = entity.Age,
+                    Age = CalcKidsAge(entity.DOB),
                     About = entity.About,
                     Gender = entity.Gender,
 
@@ -98,13 +103,54 @@ namespace Milestones.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity = ctx.Kids.Single(k => k.KidID == kidID && k.UserID == _userID);
+                var entity = ctx.
+                             Kids.
+                             Single(k => k.KidID == kidID);
+
+                var query =
+                    from eventobject in ctx.Events
+                    where
+                            ctx.
+                            Events.
+                            All(e => e.KidID == kidID)
+                    orderby eventobject.EventID
+                    select eventobject;
+                foreach (Event eventToDelete in query)
+                    ctx.Events.Remove(eventToDelete);
 
                 ctx.Kids.Remove(entity);
 
                 return (ctx.SaveChanges() == 1);
             }
         }
+
+        private string CalcKidsAge(DateTime Dob)
+        {
+            DateTime Now = DateTime.Now;
+            int years = new DateTime(DateTime.Now.Subtract(Dob).Ticks).Year - 1;
+            DateTime PastYearDate = Dob.AddYears(years);
+            int months = 0;
+            for (int i = 1; i <= 12; i++)
+            {
+                if (PastYearDate.AddMonths(i) == Now)
+                {
+                    months = i;
+                    break;
+                }
+                else if (PastYearDate.AddMonths(i) >= Now)
+                {
+                    months = i - 1;
+                    break;
+                }
+            }
+            int days = Now.Subtract(PastYearDate.AddMonths(months)).Days;
+
+            var age = $" {years} Year(s) {months} Months(s) {days} Day(s)";
+
+            return age;
+        }
+
+
     }
 }
 

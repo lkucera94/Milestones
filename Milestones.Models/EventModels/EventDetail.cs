@@ -12,6 +12,8 @@ namespace Milestones.Models.EventModels
     {
         public int EventID { get; set; }
 
+        public int KidID { get; set; } 
+
         [Display(Name = "Event")]
         public string EventName { get; set; }
 

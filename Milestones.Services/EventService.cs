@@ -70,6 +70,7 @@ namespace Milestones.Services
                 var model = new EventDetail()
                 {
                     EventID = entity.EventID,
+                    KidID = entity.KidID,
                     EventName = entity.EventName,
                     EventLocation = entity.EventLocation,
                     DateOfEvent = entity.DateOfEvent,
